@@ -1,0 +1,13 @@
+Chapter 4
+1. Basics of Functions
+2. Functions Returning Non-integers
+3. External Variables
+4. Scope Rules
+5. Header Files
+6. Static Variables
+7. Register Variables
+8. Block Structure
+9. Initialization
+10. Recursion
+11. The C Preprocessor
+

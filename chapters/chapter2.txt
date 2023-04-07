@@ -1,0 +1,14 @@
+Chapter 2
+1. Variable Names
+2. Data Types and Sizes
+3. Constants
+4. Declarations
+5. Arithmetic Operators
+6. Relational and Logical Operators
+7. Type Conversions
+8. Increment and Decrement Operators
+9. Bitwise Operators
+10. Assignment Operators and Expressions
+11. Conditional Expressions
+12. Precedence and Order of Evaluation
+
