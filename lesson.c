@@ -1,7 +1,11 @@
 #include <stdio.h>
 
+#define SECONDS_PER_MINUTE 60
+
 int main()
 {
-    printf("Hello, World!");
-    return 0;
+  int width = 4;
+  int height = 5;
+  printf("The area is %d", width*height);
+  return 0;
 }

@@ -2,10 +2,9 @@ import os
 import json
 import subprocess
 import time
-from colorama import Fore, Style, init
+from colorama import Fore, init
 from chat import chat
 
-# Automatically reset the console color after each print statement
 init(autoreset=True)
 
 
@@ -75,15 +74,12 @@ def monitor_changes(prompt, chapter, topic, file_path='lesson'):
                     message_history.append(
                         ("user", f"Failed to compile: {compile_result['compile_result']}\nlesson.c: {code}"))
 
-                response = chat(
-                    prompt,
-                    message_history
-                )
+                response = chat(prompt, message_history[-3:])
             else:
                 time.sleep(0.5)
                 continue
 
-            response = chat(prompt, message_history)
+            response = chat(prompt, message_history[-3:])
             print(Fore.GREEN + "Tutor: " + Fore.RESET + response)
             message_history.append(("assistant", response))
 
