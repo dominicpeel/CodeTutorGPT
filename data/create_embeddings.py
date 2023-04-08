@@ -1,9 +1,7 @@
 import pandas as pd
 from uuid import uuid4
-from time import sleep
 from tqdm.auto import tqdm
 import openai
-import pinecone
 import tiktoken
 import PyPDF2
 
@@ -98,10 +96,7 @@ for chunk in tqdm(chunks):
     )
     chunk['embedding'] = res['data'][0]['embedding']
 
-    # Create a temporary DataFrame to store the current chunk data
     temp_df = pd.DataFrame([chunk], columns=columns)
-    
-    # Concatenate the temporary DataFrame with the main DataFrame
     df = pd.concat([df, temp_df], ignore_index=True)
 
 df.to_csv('embeddings.csv', index=False)
