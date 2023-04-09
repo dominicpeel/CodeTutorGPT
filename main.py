@@ -48,7 +48,37 @@ def format_response(text):
     return highlighted_text
 
 def monitor(prompt, file_path='lesson'):
-    message_history = [("assistant", 'Welcome to CodeTutorGPT! What would you like to learn today?')]
+    message_history = []
+    message_history.extend([
+        ("assistant", "Welcome to CodeTutorGPT! What would you like to learn today?"),
+        ("user", "pointers"),
+        ("assistant", """Pointers are a fundamental concept in the C programming language. They allow you to manipulate memory directly, which can be incredibly powerful and efficient.
+
+In C, a pointer is a variable that stores the memory address of another variable. You can use pointers to access and manipulate the value of the variable indirectly. Pointers are denoted by the * symbol and are declared with the data type of the variable they point to.
+
+For example, to declare a pointer to an integer variable, you would write:
+
+```
+int *ptr;
+```
+This declares a pointer variable called ptr that can point to an integer value.
+
+To get the address of a variable, you can use the & symbol. For example:
+
+```
+int num = 10;
+int *ptr = &num;
+```
+This assigns the memory address of the integer variable num to the pointer ptr.
+
+Now, let's try a coding task to test your understanding.
+
+Write a program that declares an integer variable and a pointer to that variable. Assign a value to the integer variable, and then use the pointer to change the value of the integer variable to a new value. Finally, print the new value of the integer variable.
+
+Save your program as 'lesson.c' and run it to see the output."""), 
+ ('user', 'Run result: CompletedProcess(args=[\'./lesson\'], returncode=0, stdout=\'x = 5\\nx = 100\\n\', stderr=\'\')\nlesson.c: #include <stdio.h>\n\n#define PI 3.14159\n\nint main()\n{\n  int x = 5;\n  int *ptr = &x;\n  printf("x = %d\\n", x);\n  *ptr = 100;\n  printf("x = %d\\n", x);\n  return 0;\n}\n')    
+    ])
+    message_history.append(("assistant", 'Welcome to CodeTutorGPT! What would you like to learn today?'))
     print(Fore.CYAN + "Tutor: " + Fore.RESET + message_history[0][1])
 
     last_modified_time = os.path.getmtime(f"{file_path}.c")
@@ -80,11 +110,6 @@ def monitor(prompt, file_path='lesson'):
                 else:
                     message_history.append(
                         ("user", f"Failed to compile: {compile_result['compile_result']}\nlesson.c: {code}"))
-
-                response = chat(
-                    prompt,
-                    message_history
-                )
             else:
                 time.sleep(0.5)
                 continue
@@ -100,10 +125,8 @@ def monitor(prompt, file_path='lesson'):
 if __name__ == "__main__":
     with open('prompt.txt') as f:
         system_prompt = f.read()
-    with open('chapters.txt') as f:
-        chapters = f.read()
 
-    prompt = system_prompt + chapters
+    prompt = system_prompt
 
     while True:
         monitor(prompt)

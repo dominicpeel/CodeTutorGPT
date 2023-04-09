@@ -12,13 +12,13 @@ def chat(system, message_history, model="gpt-3.5-turbo"):
     messages = []
     messages.append(create_message("system", system))
 
-    for role, content in message_history[-5:]:
+    for role, content in message_history[-7:]:
         messages.append(create_message(role, content))
 
     response = openai.ChatCompletion.create(
         model=model,
         messages=messages,
-        temperature=0.5,
+        temperature=0.3,
     )
 
     return response['choices'][0]['message']['content']

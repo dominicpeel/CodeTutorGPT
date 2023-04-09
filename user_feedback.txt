@@ -1,1 +1,1 @@
-6. Relational and Logical Operators
+so do functions pass by copying by default?
