@@ -2,8 +2,7 @@
 
 This project is an interactive programming language tutor, designed to teach users a language through a series of interactive lessons. The AI tutor provides explanations, examples, and tasks for users to complete in order to gain a deeper understanding of the language. The project's folder structure, scripts, and files are outlined below.
 
-Demo Video:
-`<a href="https://www.youtube.com/watch?v=oABUJiTbm-k" target="_blank"></a>`
+[Demo video](https://www.youtube.com/watch?v=oABUJiTbm-k)
 
 ## To-do
 
