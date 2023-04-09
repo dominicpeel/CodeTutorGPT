@@ -1,20 +1,8 @@
 # CodeTutorGPT
 
-This project is an interactive programming language tutor, designed to teach users a language through a series of interactive lessons. The AI tutor provides explanations, examples, and tasks for users to complete in order to gain a deeper understanding of the language. The project's folder structure, scripts, and files are outlined below.
+CodeTutorGPT is an interactive programming language tutor. It provides lessons, assigns coding tasks to test users' understanding, and offers tailored feedback on their progress.
 
 [Demo video](https://www.youtube.com/watch?v=oABUJiTbm-k)
-
-## To-do
-
-[ ] Add memory/context of user's current knowledge.
-
-[ ] Support for multiple languages, make it more modular to allow for easy adding of new languages
-
-[ ] Embedding spaces for languages/user context?
-
-# CodeTutorGPT
-
-CodeTutorGPT is an interactive programming language tutor based on the book It provides concise lessons, assigns coding tasks to test users' understanding, and offers tailored feedback on their progress.
 
 ## Features
 
@@ -36,6 +24,14 @@ CodeTutorGPT is an interactive programming language tutor based on the book It p
 ## Dependencies
 
 - GCC (for compiling C code)
+
+## To-do
+
+[ ] Add memory/context of user's current knowledge.
+
+[ ] Support for multiple languages, make it more modular to allow for easy adding of new languages
+
+[ ] Embedding spaces for languages/user context?
 
 ## License
 
