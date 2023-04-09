@@ -1,1 +1,1 @@
-lets skip to topic 6. Arrays
+how do i prompt the user again

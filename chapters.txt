@@ -1,0 +1,92 @@
+Chapter 1: A Tutorial Introduction
+1. Getting Started
+2. Variables and Arithmetic Expressions
+3. The for statement
+4. Symbolic Constants
+5. Character Input and Output
+6. Arrays
+7. Functions
+8. Arguments - Call by Value
+9. Character Arrays
+10. External Variables and Scope
+
+Chapter 2: Types, Operators and Expressions
+1. Variable Names
+2. Data Types and Sizes
+3. Constants
+4. Declarations
+5. Arithmetic Operators
+6. Relational and Logical Operators
+7. Type Conversions
+8. Increment and Decrement Operators
+9. Bitwise Operators
+10. Assignment Operators and Expressions
+11. Conditional Expressions
+12. Precedence and Order of Evaluation
+
+Chapter 3: Control Flow
+1. Statements and Blocks
+2. If-Else
+3. Else-If
+4. Switch
+5. Loops - While and For
+6. Loops - Do-While
+7. Break and Continue
+8. Goto and labels
+
+Chapter 4: Functions and Program Structure
+1. Basics of Functions
+2. Functions Returning Non-integers
+3. External Variables
+4. Scope Rules
+5. Header Files
+6. Static Variables
+7. Register Variables
+8. Block Structure
+9. Initialization
+10. Recursion
+11. The C Preprocessor
+
+Chapter 5: Pointers and Arrays
+1. Pointers and Addresses
+2. Pointers and Function Arguments
+3. Pointers and Arrays
+4. Address Arithmetic
+5. Character Pointers and Functions
+6. Pointer Arrays; Pointers to Pointers
+7. Multi-dimensional Arrays
+8. Initialization of Pointer Arrays
+9. Pointers vs. Multi-dimensional Arrays
+10. Command-line Arguments
+11. Pointers to Functions
+12. Complicated Declarations
+
+Chapter 6: Structures
+1. Basics of Structures
+2. Structures and Functions
+3. Arrays of Structures
+4. Pointers to Structures
+5. Self-referential Structures
+6. Table Lookup
+7. Typedef
+8. Unions
+9. Bit-fields
+
+Chapter 7: Input and Output
+1. Standard Input and Output
+2. Formatted Output - printf
+3. Variable-length Argument Lists
+4. Formatted Input - Scanf
+5. File Access
+6. Error Handling - Stderr and Exit
+7. Line Input and Output
+8. Miscellaneous Functions
+
+Chapter 8: The UNIX System Interface
+1. File Descriptors
+2. Low Level I/O - Read and Write
+3. Open, Creat, Close, Unlink
+4. Random Access - Lseek
+5. Example - An implementation of Fopen and Getc
+6. Example - Listing Directories
+7. Example - A Storage Allocator

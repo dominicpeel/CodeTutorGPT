@@ -1,12 +1,17 @@
 import os
-import json
 import subprocess
 import time
 from colorama import Fore, init
+import openai
 from chat import chat
+import pandas as pd
+import ast
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
 
+model = "gpt-3.5-turbo"
+# model = "gpt-4"
 init(autoreset=True)
-
 
 def compile_code(file_path):
     compile_result = subprocess.run(
@@ -17,7 +22,6 @@ def compile_code(file_path):
         return {"success": False, "compile_result": compile_result}
     return {"success": True}
 
-
 def run(file_path):
     run_result = subprocess.run(
         [f"./{file_path}"], capture_output=True, text=True)
@@ -25,23 +29,12 @@ def run(file_path):
         print(Fore.RED + "Program execution failed:")
         print(run_result.returncode)
         print(run_result.stderr)
-        # feed stderr and code to GPT-4
     else:
         print(Fore.GREEN + "Program output:")
         print(run_result.stdout)
     return run_result
 
-
-def monitor_changes(prompt, chapter, topic, file_path='lesson'):
-
-    message_history = [("user", f"{chapter=} {topic=}")]
-    response = chat(
-        prompt,
-        message_history
-    )
-    print(Fore.GREEN + "Tutor: " + Fore.RESET + response)
-    message_history.append(("assistant", response))
-
+def monitor_changes(file_path='lesson'):
     last_modified_time = os.path.getmtime(f"{file_path}.c")
     last_modified_user_feedback_time = os.path.getmtime('user_feedback.txt')
     while True:
@@ -54,66 +47,122 @@ def monitor_changes(prompt, chapter, topic, file_path='lesson'):
                 print(Fore.YELLOW + "User feedback file modified")
                 with open('user_feedback.txt') as f:
                     user_feedback = f.read()
-                print(Fore.GREEN + "User: " + user_feedback)
-                message_history.append(("user", user_feedback))
+                print(Fore.GREEN + "User: " + Fore.RESET + user_feedback)
+                return f"User: {user_feedback}" 
             elif current_modified_time > last_modified_time:
                 last_modified_time = current_modified_time
                 print(Fore.YELLOW + "File modified")
 
                 # open code
                 with open(f"{file_path}.c") as f:
-                    code = f.read()
+                    code = f"Code:\n {f.read()}" 
 
                 # compile code
                 compile_result = compile_code(file_path)
                 if compile_result["success"]:
                     run_result = run(file_path)
-                    message_history.append(
-                        ("user", f"Run result: {run_result}\nlesson.c: {code}"))
+                    if run_result.returncode != 0:
+                        return f"{code}\nExecution error: {run_result.stderr}"
+                    return f"{code}\nExecution result: {run_result.stdout}" 
                 else:
-                    message_history.append(
-                        ("user", f"Failed to compile: {compile_result['compile_result']}\nlesson.c: {code}"))
-
-                response = chat(prompt, message_history[-3:])
+                    return f"{code}\nCompile error: {compile_result['compile_result'].stderr}"
             else:
                 time.sleep(0.5)
                 continue
-
-            response = chat(prompt, message_history[-3:])
-            print(Fore.GREEN + "Tutor: " + Fore.RESET + response)
-            message_history.append(("assistant", response))
-
-            if "NEXT" in response:
-                break
 
         except KeyboardInterrupt:
             print(Fore.RED + "KeyboardInterrupt")
             exit()
 
+def get_ada_embedding(text):
+    text = text.replace("\n", " ")
+    return openai.Embedding.create(
+        input=[text], 
+        model="text-embedding-ada-002"
+    )["data"][0]["embedding"]
+
+def getLanguageContext(query, k=2):
+    embedded_query = get_ada_embedding(query) 
+
+    try:
+        language_df = pd.read_csv('data/embeddings.csv')
+    except FileNotFoundError:
+        print(Fore.RED + "No embeddings file found")
+        exit() 
+
+    language_embeddings = np.array(language_df['embedding'].apply(ast.literal_eval).tolist())
+    
+    # Calculate cosine similarity
+    similarities = cosine_similarity([embedded_query], language_embeddings)[0]
+
+    # Get the indices of the top k contexts
+    top_k_indices = similarities.argsort()[-k:][::-1]
+
+    # Return the top k contexts
+    top_k_contexts = language_df.iloc[top_k_indices]['text']
+    language_context_string = "\n".join(top_k_contexts)
+
+    print(Fore.LIGHTBLUE_EX + "Language Context: " + Fore.RESET + language_context_string[:500] + "...")
+    return language_context_string
+
+
+def create_message(role, content):
+    return {"role": role, "content": content}
+
+
+def controller(controller_prompt, user_output, message_history):
+    messages = []
+    messages.append(create_message("system", controller_prompt))
+    messages.append(create_message("user", user_output))
+
+    getLangContext = 1
+    controller_output = '' 
+    while True:
+        response = openai.ChatCompletion.create(
+            model=model,
+            messages=messages,
+            temperature=0.7,
+        )['choices'][0]['message']['content']
+        
+        print(Fore.CYAN + "Controller: " + Fore.RESET + response)
+
+        command, arg = response.split(' ', 1)
+        # parse controller response
+        '''TO ADD
+            - storeUserInfo 'text': Store user information in the user knowledge embedding space using the provided text.
+            - getUserInfo 'query': Retrieve user information from the user knowledge embedding space based on the provided query.
+        '''
+        if command == "getLanguageContext":
+            if getLangContext == 0:
+                messages.append(create_message("user", "Error: getLanguageContext command used too many times"))
+                print(Fore.RED + "getLanguageContext command used too many times") 
+                continue
+            getLangContext -= 1
+            language_context = getLanguageContext(arg) 
+            messages.append(create_message("user", language_context))
+        elif command == "storeUserInfo":
+            pass
+        elif command == "getUserInfo":
+            pass
+        elif command == "sendPromptToUser":
+            controller_output = arg[1:-1]
+            break
+        else:
+            print(Fore.RED + "Unknown command")
+            messages.append(create_message("user", "Error: Unknown command, please only use the following commands: getLanguageContext, sendPromptToUser")) 
+            continue
+
+    return controller_output
 
 if __name__ == "__main__":
-    with open('memory.json') as f:
-        memory = json.load(f)
-    with open('prompt.txt') as f:
-        system_prompt = f.read()
-    with open('chapters/chapter_titles.txt') as f:
-        chapter_titles = f.read()
+    with open('controller_prompt.txt') as f:
+        controller_prompt = f.read()
+    with open('tutor_prompt.txt') as f:
+        tutor_prompt = f.read()
 
-    chapter = memory['chapter']
-    topic = memory['topic']
-
-    with open(f"chapters/chapter{chapter}.txt") as f:
-        topics = f.read()
-
-    prompt = system_prompt + chapter_titles + topics
+    message_history = [] 
 
     while True:
-        print(Fore.CYAN + f"Chapter {chapter}, Topic {topic}")
-
-        monitor_changes(prompt, chapter, topic)
-
-        topic += 1
-        # memory['topic'] = topic
-
-        # with open('memory.json', 'w') as f:
-        #     json.dump(memory, f)
+        user_output = monitor_changes()
+        controller_output = controller(controller_prompt, user_output, message_history)
+        print('Prompt sent to tutor...')

@@ -1,11 +1,17 @@
 #include <stdio.h>
 
-#define SECONDS_PER_MINUTE 60
+#define PI 3.14159
 
 int main()
 {
-  int width = 4;
-  int height = 5;
-  printf("The area is %d", width*height);
+  double radius, area;
+
+  printf("Enter the radius of the circle: ");
+  scanf("%lf", &radius);
+
+  area = PI * radius * radius;
+
+  printf("The area of the circle is: %lf\n", area);
+
   return 0;
 }
