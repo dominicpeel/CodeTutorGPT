@@ -6,7 +6,7 @@ CodeTutorGPT is an interactive programming language tutor. It provides lessons, 
 
 ![System diagram](https://pbs.twimg.com/media/FtXrE8FWAAsL6PH?format=png&name=large)
 
-[Demo video](https://www.youtube.com/watch?v=oABUJiTbm-k)
+[Screencast from 10-04-23 18:38:21.webm](https://user-images.githubusercontent.com/13541166/230960573-e5ee5ae8-eec9-4b6e-832f-4b67a728f4bd.webm)
 
 ## Features
 
