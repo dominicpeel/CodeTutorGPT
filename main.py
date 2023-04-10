@@ -25,7 +25,7 @@ def context_agent(context_prompt, message_history):
         f.write(new_context)
     return new_context 
 
-def monitor(prompt, context_prompt, Language):
+def tutor_agent(prompt, context_prompt, Language):
     message_history = []
     example = [
         ("assistant", "Welcome to CodeTutorGPT! What would you like to learn today?"),
@@ -110,4 +110,4 @@ if __name__ == "__main__":
     prompt = system_prompt
 
     while True:
-        monitor(prompt, context_prompt, Language)
+        tutor_agent(prompt, context_prompt, Language)
