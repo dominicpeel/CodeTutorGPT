@@ -1,3 +1,5 @@
 .env
 __pycache__
 lesson
+output.py
+output_file.txt

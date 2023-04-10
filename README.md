@@ -9,15 +9,15 @@ CodeTutorGPT is an interactive programming language tutor. It provides lessons, 
 - Encourages active learning
 - Automatic code compilation and execution
 - Code and error feedback
-- User interaction through `user_feedback.py`
+- User interaction through \`user_feedback.py\`
 
 ## How to Use
 
 1. Clone the repository.
 2. Install dependencies: `pip install -r requirements.txt`
 3. Run the main script. `python main.py`
-4. Modify the 'lesson.c' file to complete the assigned tasks.
-5. User the 'user_feedback.py' chat or 'user_feedback.txt' to communicate with the tutor.
+4. Modify the 'lesson.c' or 'lesson.py' file to complete the assigned tasks.
+5. Use the 'user_feedback.py' chat or 'user_feedback.txt' to communicate with the tutor.
 6. Monitor the output for feedback from the AI tutor.
 7. To provide feedback or interact with the tutor, use `user_feedback.py`.
 
@@ -27,7 +27,7 @@ CodeTutorGPT is an interactive programming language tutor. It provides lessons, 
 
 ## To-do
 
-[ ] Support for multiple languages, make it more modular to allow for easy adding of new languages
+[ ] Config file to easily change language etc
 
 [ ] Embedding spaces for languages/user context?
 
