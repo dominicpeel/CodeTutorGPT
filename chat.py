@@ -18,7 +18,7 @@ def chat(system, message_history=[], model="gpt-3.5-turbo"):
     response = openai.ChatCompletion.create(
         model=model,
         messages=messages,
-        temperature=0.3,
+        temperature=0.2,
     )
 
     return response['choices'][0]['message']['content']

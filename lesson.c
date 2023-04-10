@@ -2,13 +2,16 @@
 
 int main()
 {
-  int arr[] = {1, 2, 3, 4, 5};
-  int size = sizeof(arr) / sizeof(arr[0]);
-
-  for (int i = size - 1; i >= 0; i--)
+  int *arr = malloc(10 * sizeof(int));
+  for (int i = 0; i < 10; i++)
+  {
+    arr[i] = i;
+  }
+  for (int i = 0; i < 10; i++)
   {
     printf("%d\n", arr[i]);
   }
+  free(arr);
 
   return 0;
 }
