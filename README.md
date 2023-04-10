@@ -1,6 +1,10 @@
 # CodeTutorGPT
 
+![Twitter Follow](https://img.shields.io/twitter/follow/dom_peely?style=social)
+
 CodeTutorGPT is an interactive programming language tutor. It provides lessons, assigns coding tasks to test users' understanding, and offers tailored feedback on their progress.
+
+![System diagram](https://pbs.twimg.com/media/FtXrE8FWAAsL6PH?format=png&name=large)
 
 [Demo video](https://www.youtube.com/watch?v=oABUJiTbm-k)
 
