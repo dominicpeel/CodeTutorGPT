@@ -46,10 +46,10 @@ class CLanguage(Language):
         return CLexer
 
     def get_modified_time(self):
-        return os.path.getmtime("lesson.c")
+        return os.path.getmtime("lessons/lesson.c")
 
     def run(self):
-        file_path = "lesson"
+        file_path = "lessons/lesson"
         with open(f"{file_path}.c", "r") as f:
             code = f.read()
 
@@ -86,10 +86,10 @@ class PythonLanguage(Language):
         return PythonLexer
 
     def get_modified_time(self):
-        return os.path.getmtime("lesson.py")
+        return os.path.getmtime("lessons/lesson.py")
 
     def run(self):
-        file_path = "lesson"
+        file_path = "lessons/lesson"
         with open(f"{file_path}.py", "r") as f:
             code = f.read()
 

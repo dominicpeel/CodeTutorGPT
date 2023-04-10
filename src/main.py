@@ -7,7 +7,7 @@ from languages import get_language
 init(autoreset=True)
 
 def context_agent(context_prompt, message_history):
-    with open('user_context.txt', 'r') as f:
+    with open('data/user_context.txt', 'r') as f:
         user_context = f.read()
     history_string = ''
     for role, content in message_history[-5:]:
@@ -21,7 +21,7 @@ def context_agent(context_prompt, message_history):
         context_prompt,
         [("user", prompt)]
     ) 
-    with open('user_context.txt', 'w') as f:
+    with open('data/user_context.txt', 'w') as f:
         f.write(new_context)
     return new_context 
 
@@ -60,18 +60,18 @@ Save your program as 'lesson.c' and run it to see the output."""),
     print(Fore.CYAN + "Tutor: " + Fore.RESET + message_history[0][1])
 
     last_modified_time = Language.get_modified_time() 
-    last_modified_user_feedback_time = os.path.getmtime('user_feedback.txt')
+    last_modified_user_feedback_time = os.path.getmtime('data/user_feedback.txt')
     while True:
         try:
             current_modified_time = Language.get_modified_time()
             current_modified_user_feedback_time = os.path.getmtime(
-                'user_feedback.txt')
+                'data/user_feedback.txt')
             if current_modified_user_feedback_time > last_modified_user_feedback_time:
                 last_modified_user_feedback_time = current_modified_user_feedback_time
 
                 print(Fore.YELLOW + "User feedback file modified")
                 
-                with open('user_feedback.txt') as f:
+                with open('data/user_feedback.txt') as f:
                     user_feedback = f.read()
                 print(Fore.GREEN + "User: " + Fore.RESET + user_feedback)
 
@@ -96,9 +96,9 @@ Save your program as 'lesson.c' and run it to see the output."""),
 
 
 if __name__ == "__main__":
-    with open('prompt.txt') as f:
-        system_prompt = f.read()
-    with open('context_prompt.txt') as f:
+    with open('data/tutor_prompt.txt') as f:
+        tutor_prompt = f.read()
+    with open('data/context_prompt.txt') as f:
         context_prompt = f.read()
 
     language = 'python'
@@ -107,7 +107,5 @@ if __name__ == "__main__":
         print(Fore.RED + f"Language {language} not supported")
         exit()
 
-    prompt = system_prompt
-
     while True:
-        tutor_agent(prompt, context_prompt, Language)
+        tutor_agent(tutor_prompt, context_prompt, Language)

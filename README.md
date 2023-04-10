@@ -15,11 +15,11 @@ CodeTutorGPT is an interactive programming language tutor. It provides lessons, 
 
 1. Clone the repository.
 2. Install dependencies: `pip install -r requirements.txt`
-3. Run the main script. `python main.py`
+3. Run the main script. `python src/main.py`
 4. Modify the 'lesson.c' or 'lesson.py' file to complete the assigned tasks.
 5. Use the 'user_feedback.py' chat or 'user_feedback.txt' to communicate with the tutor.
 6. Monitor the output for feedback from the AI tutor.
-7. To provide feedback or interact with the tutor, use `user_feedback.py`.
+7. To provide feedback or interact with the tutor, use `python src/user_feedback.py`.
 
 ## Dependencies
 
