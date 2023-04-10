@@ -32,7 +32,7 @@ def run(file_path):
         print(run_result.stdout)
     return run_result
 
-def format_response(text):
+def syntax_highlight(text):
     code_regex = r'```(.*?)```'
     highlighted_text = ""
 
@@ -47,9 +47,28 @@ def format_response(text):
     highlighted_text += text[last_match_end:]
     return highlighted_text
 
-def monitor(prompt, file_path='lesson'):
+def context_agent(context_prompt, message_history):
+    with open('user_context.txt', 'r') as f:
+        user_context = f.read()
+    history_string = ''
+    for role, content in message_history[-5:]:
+        if role == 'assistant':
+            history_string += f"tutor: {content}, "
+        else:
+            history_string += f"student: {content}, "
+
+    prompt = f"User context: {user_context}\nMessage history: {history_string} New user context:"
+    new_context = chat(
+        context_prompt,
+        [("user", prompt)]
+    ) 
+    with open('user_context.txt', 'w') as f:
+        f.write(new_context)
+    return new_context 
+
+def monitor(prompt, context_prompt, file_path='lesson'):
     message_history = []
-    message_history.extend([
+    example = [
         ("assistant", "Welcome to CodeTutorGPT! What would you like to learn today?"),
         ("user", "pointers"),
         ("assistant", """Pointers are a fundamental concept in the C programming language. They allow you to manipulate memory directly, which can be incredibly powerful and efficient.
@@ -77,7 +96,7 @@ Write a program that declares an integer variable and a pointer to that variable
 
 Save your program as 'lesson.c' and run it to see the output."""), 
  ('user', 'Run result: CompletedProcess(args=[\'./lesson\'], returncode=0, stdout=\'x = 5\\nx = 100\\n\', stderr=\'\')\nlesson.c: #include <stdio.h>\n\n#define PI 3.14159\n\nint main()\n{\n  int x = 5;\n  int *ptr = &x;\n  printf("x = %d\\n", x);\n  *ptr = 100;\n  printf("x = %d\\n", x);\n  return 0;\n}\n')    
-    ])
+    ]
     message_history.append(("assistant", 'Welcome to CodeTutorGPT! What would you like to learn today?'))
     print(Fore.CYAN + "Tutor: " + Fore.RESET + message_history[0][1])
 
@@ -113,9 +132,10 @@ Save your program as 'lesson.c' and run it to see the output."""),
             else:
                 time.sleep(0.5)
                 continue
-
-            response = chat(prompt, message_history)
-            print(Fore.CYAN + "Tutor: " + Fore.RESET + format_response(response)) 
+            
+            user_context = context_agent(context_prompt, message_history)
+            response = chat(prompt+user_context, example+message_history)
+            print(Fore.CYAN + "Tutor: " + Fore.RESET + syntax_highlight(response)) 
             message_history.append(("assistant", response))
         except KeyboardInterrupt:
             print(Fore.RED + "KeyboardInterrupt")
@@ -125,8 +145,10 @@ Save your program as 'lesson.c' and run it to see the output."""),
 if __name__ == "__main__":
     with open('prompt.txt') as f:
         system_prompt = f.read()
+    with open('context_prompt.txt') as f:
+        context_prompt = f.read()
 
     prompt = system_prompt
 
     while True:
-        monitor(prompt)
+        monitor(prompt, context_prompt)

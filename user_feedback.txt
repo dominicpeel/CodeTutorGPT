@@ -1,1 +1,1 @@
-so do functions pass by copying by default?
+lets look at functions now

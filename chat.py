@@ -8,7 +8,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def create_message(role, content):
     return {"role": role, "content": content}
 
-def chat(system, message_history, model="gpt-3.5-turbo"):
+def chat(system, message_history=[], model="gpt-3.5-turbo"):
     messages = []
     messages.append(create_message("system", system))
 

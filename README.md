@@ -27,8 +27,6 @@ CodeTutorGPT is an interactive programming language tutor. It provides lessons, 
 
 ## To-do
 
-[ ] Add memory/context of user's current knowledge.
-
 [ ] Support for multiple languages, make it more modular to allow for easy adding of new languages
 
 [ ] Embedding spaces for languages/user context?

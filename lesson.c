@@ -2,13 +2,13 @@
 
 int main()
 {
-  int x = 5;
-  int *ptr = &x;
+  int arr[] = {1, 2, 3, 4, 5};
+  int size = sizeof(arr) / sizeof(arr[0]);
 
-  printf("x = %d\n", x);
-
-  *ptr = 100;
-  printf("x = %d\n", x);
+  for (int i = size - 1; i >= 0; i--)
+  {
+    printf("%d\n", arr[i]);
+  }
 
   return 0;
 }
