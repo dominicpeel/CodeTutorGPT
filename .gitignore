@@ -3,3 +3,7 @@ __pycache__
 lesson
 output.py
 output_file.txt
+user_context.txt
+user_feedback.txt
+lesson.c
+lesson.py
